@@ -10,7 +10,16 @@ import (
 
 func Provider() terraform.ResourceProvider {
 	return &schema.Provider{
-		Schema: map[string]*schema.Schema{},
+		Schema: map[string]*schema.Schema{
+			"cert_file": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+			"key_file": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
+		},
 
 		DataSourcesMap: map[string]*schema.Resource{
 			"http": dataSource(),
