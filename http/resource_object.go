@@ -25,6 +25,10 @@ func resourceObject() *schema.Resource {
 				Required: true,
 			},
 		},
+
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 	}
 }
 
@@ -35,6 +39,10 @@ func resourceObjectCreate(d *schema.ResourceData, m interface{}) error {
 func resourceObjectRead(d *schema.ResourceData, m interface{}) error {
 	client := getClient(m)
 	url := d.Get("url").(string)
+	if url == "" {
+		url = d.Id()
+		d.Set("url", d.Id())
+	}
 	req, err := http.NewRequest(http.MethodGet, url, nil)
 	if err != nil {
 		return fmt.Errorf("request error: %s (%s)", url, err)
